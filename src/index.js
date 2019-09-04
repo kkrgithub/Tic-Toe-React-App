@@ -18,13 +18,14 @@ import './index.css';
       super(props);
       this.state = {
         squares : Array(9).fill(null),
+        isXnext : true,
       };
     }
 
     handleClick(i) {
       const squares = this.state.squares.slice();
-      squares[i] = "X";
-      this.setState({squares: squares});
+      squares[i] = this.state.isXnext ? 'X' : 'O';
+      this.setState({squares: squares, isXnext : !this.state.isXnext});
     }
 
     renderSquare(i) {
@@ -35,7 +36,7 @@ import './index.css';
     }
   
     render() {
-      const status = 'Next player: X';
+      const status = 'Next player:' + (this.state.isXnext ? 'X' : 'O');
   
       return (
         <div>
