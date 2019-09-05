@@ -52,11 +52,19 @@ import './index.css';
       this.state = {
         history : [{squares : Array(9).fill(null),}],
         isXnext : true,
+        stepNumber : 0,
       };
     }
 
+    jumpTo(step) {
+      this.setState({
+        stepNumber : step,
+        isXnext : (step % 2 === 0)
+      });
+    }
+
     handleClick(i) {
-      const history = this.state.history;
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length-1];
       const squares = current.squares.slice();
       if(calculateWinner(squares) || squares[i])
@@ -66,13 +74,15 @@ import './index.css';
         history: history.concat(
           [{squares : squares}]
           ), 
-        isXnext : !this.state.isXnext});
+        stepNumber : history.length,  
+        isXnext : !this.state.isXnext
+      });
     }  
 
     render() {
 
       const history = this.state.history;
-      const current = history[history.length-1];
+      const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
 
       const moves = history.map((step, move) => {
