@@ -84,7 +84,6 @@ import './index.css';
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
-      const stepNo = current.lastFilled;
       const row = 3;
       const col = 3;
 
@@ -95,7 +94,17 @@ import './index.css';
 
         return(
           <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          {
+            this.state.stepNumber === move && 
+            <button onClick={() => this.jumpTo(move)}>
+            <b>{desc}</b>
+            </button>
+          }
+          {
+            this.state.stepNumber !== move &&  
+            <button onClick={() => this.jumpTo(move)}>
+            {desc}
+            </button>}
           </li>
         );
 
