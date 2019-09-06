@@ -50,7 +50,7 @@ import './index.css';
     constructor(props) {
       super(props);
       this.state = {
-        history : [{squares : Array(9).fill(null),}],
+        history : [{squares : Array(9).fill(null), lastFilled : -1}],
         isXnext : true,
         stepNumber : 0,
       };
@@ -72,7 +72,7 @@ import './index.css';
       squares[i] = this.state.isXnext ? 'X' : 'O';
       this.setState({
         history: history.concat(
-          [{squares : squares}]
+          [{squares : squares, lastFilled : i}]
           ), 
         stepNumber : history.length,  
         isXnext : !this.state.isXnext
@@ -84,10 +84,13 @@ import './index.css';
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
+      const stepNo = current.lastFilled;
+      const row = 3;
+      const col = 3;
 
       const moves = history.map((step, move) => {
         const desc = move ? 
-        'jump back to move #' + move :
+        'jump back to move #' + move + 'pos : ' + Math.floor(step.lastFilled/row) + ' ' +  (step.lastFilled%col):
         'jump back to start';
 
         return(
