@@ -16,14 +16,64 @@ import './index.css';
 
     renderSquare(i) {
       return (<Square 
+      key={i}  
       value={this.props.squares[i]} 
       onClick = {() => this.props.onClick(i)}
       /> );
     }
+
+    createRows(start, size) {
+      let tmp = []; 
+
+      for(let i=0;i<size;i++)
+        tmp.push(this.renderSquare(start++));   
+
+      const rows = tmp  
+      return rows;
+    }
+
+    /*function RenderBoard(squares) {
+
+      var size = 1;
+      while(size*size < squares.length)
+        size++; 
+
+      var cols = [];  
+      for(let start=0,i=0;i<size;i++) {
   
-    render() {
+        cols.push(
+          (<div className="board-row">
+            {this.createRows(start, size)}
+          </div>)
+        );
+        start += size;  
+      }
+      
+      const board = cols;  
+      return board;
+    } */
   
-      return (
+    render() {  
+      //const res = this.renderBoard(this.props.squares);
+
+      var size = 1;
+      while(size*size < this.props.squares.length)
+        size++; 
+
+      var cols = [];  
+      for(let start=0,i=0;i<size;i++) {
+        cols.push(
+          (<div className="board-row" key={i}>
+            {this.createRows(start, size)}
+          </div>)
+        );
+        start += size;  
+      }
+      
+      const board = cols;  
+      return board;      
+      /* return (
+        <div>{res}</div>
         <div>
           <div className="board-row">
             {this.renderSquare(0)}
@@ -40,8 +90,8 @@ import './index.css';
             {this.renderSquare(7)}
             {this.renderSquare(8)}
           </div>
-        </div>
-      );
+        </div> 
+      ); */
     }
   }
   
@@ -157,4 +207,6 @@ import './index.css';
     <Game />,
     document.getElementById('root')
   );
+
+
   
