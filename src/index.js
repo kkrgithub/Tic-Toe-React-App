@@ -10,7 +10,7 @@ import './index.css';
             {props.value}
         </button>
       );
-    }
+    } 
   
   class Board extends React.Component {
 
@@ -103,6 +103,7 @@ import './index.css';
         history : [{squares : Array(9).fill(null), lastFilled : -1}],
         isXnext : true,
         stepNumber : 0,
+        toggle : false,
       };
     }
 
@@ -112,6 +113,12 @@ import './index.css';
         isXnext : (step % 2 === 0)
       });
     }
+   
+    toggleSort() {
+      this.setState({
+        toggle : !this.state.toggle,
+      });
+    }    
 
     handleClick(i) {
       const history = this.state.history.slice(0, this.state.stepNumber + 1);
@@ -130,14 +137,14 @@ import './index.css';
     }  
 
     render() {
-
+      //console.log('render called');
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
       const row = 3;
       const col = 3;
 
-      const moves = history.map((step, move) => {
+      let moves = history.map((step, move) => {
         const desc = move ? 
         'jump back to move #' + move + 'pos : ' + Math.floor(step.lastFilled/row) + ' ' +  (step.lastFilled%col):
         'jump back to start';
@@ -160,6 +167,9 @@ import './index.css';
 
       });
 
+      if(this.state.toggle)
+        moves = moves.reverse();
+
       let status;
       if(winner)
         status = 'Winner is' + (winner);
@@ -175,6 +185,11 @@ import './index.css';
             <div>{ status }</div>
             <ol>{moves}</ol>
           </div>
+          <div className="btn-toggle">
+            <button onClick={() => this.toggleSort()}>
+              Toggle Sorting
+            </button>
+          </div>         
         </div>
       );
     }
