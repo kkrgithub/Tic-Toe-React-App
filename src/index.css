@@ -49,3 +49,7 @@ body {
     margin-left: 20px;
   }
   
+  .win {
+    border: 2px solid rgb(9, 221, 62);
+  }
+  
